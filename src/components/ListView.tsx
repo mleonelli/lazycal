@@ -145,9 +145,9 @@ const ListView: React.FC<ListViewProps> = ({ onEventClick, onDeleteEvent }) => {
                           <div className="flex items-center gap-1">
                             <Clock className="w-4 h-4" />
                             <span>
-                              {formatTime(instance.instanceDate)}
+                              {instance.instanceDate.toLocaleDateString()}
                               {instance.instanceEnd && (
-                                <> - {formatTime(instance.instanceEnd)}</>
+                                <> - {instance.instanceEnd.toLocaleDateString()}</>
                               )}
                             </span>
                           </div>

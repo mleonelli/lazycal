@@ -246,14 +246,20 @@ export class GoogleSheetsService {
       event.location?.address || '',
       event.location?.latitude || '',
       event.location?.longitude || '',
-      event.date.start.toISOString(),
+      event.date.start?.toISOString() || '',
       event.date.end?.toISOString() || '',
-      event.date.allDay ? 'TRUE' : 'FALSE',
+      JSON.stringify({
+        mode: event.date.mode,
+        weekPosition: event.date.weekPosition,
+        weekdays: event.date.weekdays
+      }),
       event.recurrence ? JSON.stringify(event.recurrence) : ''
     ];
   }
 
   private rowToEvent(row: any[]): Event {
+    const dateConfig = row[10] ? JSON.parse(row[10]) : { mode: 'exact' };
+    
     return {
       id: row[0],
       title: row[1],
@@ -266,9 +272,11 @@ export class GoogleSheetsService {
         longitude: row[7] ? parseFloat(row[7]) : undefined,
       } : undefined,
       date: {
-        start: new Date(row[8]),
+        mode: dateConfig.mode || 'exact',
+        start: row[8] ? new Date(row[8]) : undefined,
         end: row[9] ? new Date(row[9]) : undefined,
-        allDay: row[10] === 'TRUE',
+        weekPosition: dateConfig.weekPosition,
+        weekdays: dateConfig.weekdays,
       },
       recurrence: row[11] ? JSON.parse(row[11]) : undefined,
       createdAt: new Date(), // We don't store these in the sheet for simplicity

@@ -177,9 +177,9 @@ const Calendar: React.FC<CalendarProps> = ({ onEventClick }) => {
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <Clock className="w-4 h-4" />
                 <span>
-                  {selectedEvent.instanceDate.toLocaleDateString()} at {formatTime(selectedEvent.instanceDate)}
+                  {selectedEvent.instanceDate.toLocaleDateString()}
                   {selectedEvent.instanceEnd && (
-                    <> - {formatTime(selectedEvent.instanceEnd)}</>
+                    <> - {selectedEvent.instanceEnd.toLocaleDateString()}</>
                   )}
                 </span>
               </div>

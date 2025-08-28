@@ -24,14 +24,16 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
       longitude: undefined as number | undefined,
     },
     date: {
+      mode: 'exact' as 'exact' | 'timeOfMonth',
       start: '',
       end: '',
-      allDay: false,
+      weekPosition: 'first' as 'first' | 'second' | 'third' | 'fourth',
+      weekdays: [] as ('monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday')[],
     },
     recurrence: {
       enabled: false,
-      frequency: 'weekly' as const,
-      interval: 1,
+      frequency: 'monthly' as const,
+      month: undefined as number | undefined,
       count: undefined as number | undefined,
       until: '',
     },
@@ -63,14 +65,16 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
             longitude: event.location?.longitude,
           },
           date: {
-            start: event.date.start.toISOString().slice(0, 16),
-            end: event.date.end?.toISOString().slice(0, 16) || '',
-            allDay: event.date.allDay || false,
+            mode: event.date.mode,
+            start: event.date.start?.toISOString().slice(0, 10) || '',
+            end: event.date.end?.toISOString().slice(0, 10) || '',
+            weekPosition: event.date.weekPosition || 'first',
+            weekdays: event.date.weekdays || [],
           },
           recurrence: {
             enabled: !!event.recurrence,
-            frequency: event.recurrence?.frequency || 'weekly',
-            interval: event.recurrence?.interval || 1,
+            frequency: event.recurrence?.frequency || 'monthly',
+            month: event.recurrence?.month,
             count: event.recurrence?.count,
             until: event.recurrence?.until?.toISOString().slice(0, 10) || '',
           },
@@ -98,13 +102,15 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
           longitude: formData.location.longitude,
         } as EventLocation : undefined,
         date: {
-          start: new Date(formData.date.start),
-          end: formData.date.end ? new Date(formData.date.end) : undefined,
-          allDay: formData.date.allDay,
+          mode: formData.date.mode,
+          start: formData.date.mode === 'exact' && formData.date.start ? new Date(formData.date.start) : undefined,
+          end: formData.date.mode === 'exact' && formData.date.end ? new Date(formData.date.end) : undefined,
+          weekPosition: formData.date.mode === 'timeOfMonth' ? formData.date.weekPosition : undefined,
+          weekdays: formData.date.mode === 'timeOfMonth' ? formData.date.weekdays : undefined,
         },
         recurrence: formData.recurrence.enabled ? {
           frequency: formData.recurrence.frequency,
-          interval: formData.recurrence.interval,
+          month: formData.recurrence.month,
           count: formData.recurrence.count,
           until: formData.recurrence.until ? new Date(formData.recurrence.until) : undefined,
         } as RecurrenceRule : undefined,
@@ -251,53 +257,138 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
           {/* Date and Time */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-            {t.dateAndTime}
+              {t.dateAndTime}
             </label>
             <div className="space-y-3">
-              <div className="flex items-center gap-2">
+              {/* Date Mode Selection */}
+              <div className="flex items-center gap-4">
                 <input
-                  type="checkbox"
-                  id="allDay"
-                  checked={formData.date.allDay}
-                  onChange={(e) => setFormData(prev => ({
+                  type="radio"
+                  id="exactDate"
+                  name="dateMode"
+                  checked={formData.date.mode === 'exact'}
+                  onChange={() => setFormData(prev => ({
                     ...prev,
-                    date: { ...prev.date, allDay: e.target.checked }
+                    date: { ...prev.date, mode: 'exact' }
                   }))}
                   className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                 />
-                <label htmlFor="allDay" className="text-sm text-gray-700">
-                  All day event
+                <label htmlFor="exactDate" className="text-sm text-gray-700">
+                  Exact Date
+                </label>
+                
+                <input
+                  type="radio"
+                  id="timeOfMonth"
+                  name="dateMode"
+                  checked={formData.date.mode === 'timeOfMonth'}
+                  onChange={() => setFormData(prev => ({
+                    ...prev,
+                    date: { ...prev.date, mode: 'timeOfMonth' }
+                  }))}
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                />
+                <label htmlFor="timeOfMonth" className="text-sm text-gray-700">
+                  Time of Month
                 </label>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs text-gray-500 mb-1">Start</label>
-                  <input
-                    type={formData.date.allDay ? "date" : "datetime-local"}
-                    value={formData.date.start}
-                    onChange={(e) => setFormData(prev => ({
-                      ...prev,
-                      date: { ...prev.date, start: e.target.value }
-                    }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    required
-                  />
+              {/* Exact Date Mode */}
+              {formData.date.mode === 'exact' && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs text-gray-500 mb-1">From</label>
+                    <input
+                      type="date"
+                      value={formData.date.start}
+                      onChange={(e) => setFormData(prev => ({
+                        ...prev,
+                        date: { ...prev.date, start: e.target.value }
+                      }))}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      required
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-xs text-gray-500 mb-1">To</label>
+                    <input
+                      type="date"
+                      value={formData.date.end}
+                      onChange={(e) => setFormData(prev => ({
+                        ...prev,
+                        date: { ...prev.date, end: e.target.value }
+                      }))}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
                 </div>
+              )}
+
+              {/* Time of Month Mode */}
+              {formData.date.mode === 'timeOfMonth' && (
+                <div className="space-y-3">
+                  {/* Week Position */}
+                  <div>
+                    <label className="block text-xs text-gray-500 mb-2">Week Position</label>
+                    <div className="flex gap-4">
+                      {['first', 'second', 'third', 'fourth'].map((position) => (
+                        <label key={position} className="flex items-center gap-2">
+                          <input
+                            type="radio"
+                            name="weekPosition"
+                            checked={formData.date.weekPosition === position}
+                            onChange={() => setFormData(prev => ({
+                              ...prev,
+                              date: { ...prev.date, weekPosition: position as 'first' | 'second' | 'third' | 'fourth' }
+                            }))}
+                            className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                          />
+                          <span className="text-sm text-gray-700 capitalize">{position}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
                 
-                <div>
-                  <label className="block text-xs text-gray-500 mb-1">End (optional)</label>
-                  <input
-                    type={formData.date.allDay ? "date" : "datetime-local"}
-                    value={formData.date.end}
-                    onChange={(e) => setFormData(prev => ({
-                      ...prev,
-                      date: { ...prev.date, end: e.target.value }
-                    }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
+                  {/* Weekdays */}
+                  <div>
+                    <label className="block text-xs text-gray-500 mb-2">Days of Week</label>
+                    <div className="grid grid-cols-4 gap-2">
+                      {[
+                        { key: 'monday', label: 'Monday' },
+                        { key: 'tuesday', label: 'Tuesday' },
+                        { key: 'wednesday', label: 'Wednesday' },
+                        { key: 'thursday', label: 'Thursday' },
+                        { key: 'friday', label: 'Friday' },
+                        { key: 'saturday', label: 'Saturday' },
+                        { key: 'sunday', label: 'Sunday' }
+                      ].map(({ key, label }) => (
+                        <label key={key} className="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            checked={formData.date.weekdays.includes(key as any)}
+                            onChange={(e) => {
+                              const weekdays = [...formData.date.weekdays];
+                              if (e.target.checked) {
+                                weekdays.push(key as any);
+                              } else {
+                                const index = weekdays.indexOf(key as any);
+                                if (index > -1) weekdays.splice(index, 1);
+                              }
+                              setFormData(prev => ({
+                                ...prev,
+                                date: { ...prev.date, weekdays }
+                              }));
+                            }}
+                            className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                          />
+                          <span className="text-xs text-gray-700">{label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
 
@@ -321,42 +412,55 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
 
             {formData.recurrence.enabled && (
               <div className="space-y-3 pl-6 border-l-2 border-blue-200">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4">
                   <div>
                     <label className="block text-xs text-gray-500 mb-1">{t.frequency}</label>
                     <select
                       value={formData.recurrence.frequency}
                       onChange={(e) => setFormData(prev => ({
                         ...prev,
-                        recurrence: { ...prev.recurrence, frequency: e.target.value as 'daily' | 'weekly' | 'monthly' | 'yearly' }
+                        recurrence: { ...prev.recurrence, frequency: e.target.value as 'monthly' | 'yearly' }
                       }))}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     >
-                      <option value="daily">Daily</option>
-                      <option value="weekly">Weekly</option>
-                      <option value="monthly">Monthly</option>
-                      <option value="yearly">Yearly</option>
+                      <option value="monthly">{t.monthly}</option>
+                      <option value="yearly">{t.yearly}</option>
                     </select>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-xs text-gray-500 mb-1">Interval</label>
-                    <input
-                      type="number"
-                      min="1"
-                      value={formData.recurrence.interval}
-                      onChange={(e) => setFormData(prev => ({
-                        ...prev,
-                        recurrence: { ...prev.recurrence, interval: parseInt(e.target.value) || 1 }
-                      }))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    />
                   </div>
                 </div>
 
+                {/* Month selection for yearly recurrence when no exact date */}
+                {formData.recurrence.frequency === 'yearly' && formData.date.mode === 'timeOfMonth' && (
+                  <div>
+                    <label className="block text-xs text-gray-500 mb-1">Month</label>
+                    <select
+                      value={formData.recurrence.month || ''}
+                      onChange={(e) => setFormData(prev => ({
+                        ...prev,
+                        recurrence: { ...prev.recurrence, month: e.target.value ? parseInt(e.target.value) : undefined }
+                      }))}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    >
+                      <option value="">Select Month</option>
+                      <option value="1">{t.january}</option>
+                      <option value="2">{t.february}</option>
+                      <option value="3">{t.march}</option>
+                      <option value="4">{t.april}</option>
+                      <option value="5">{t.may}</option>
+                      <option value="6">{t.june}</option>
+                      <option value="7">{t.july}</option>
+                      <option value="8">{t.august}</option>
+                      <option value="9">{t.september}</option>
+                      <option value="10">{t.october}</option>
+                      <option value="11">{t.november}</option>
+                      <option value="12">{t.december}</option>
+                    </select>
+                  </div>
+                )}
+
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs text-gray-500 mb-1">End after (occurrences)</label>
+                    <label className="block text-xs text-gray-500 mb-1">{t.endAfter}</label>
                     <input
                       type="number"
                       min="1"
@@ -366,12 +470,12 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
                         recurrence: { ...prev.recurrence, count: e.target.value ? parseInt(e.target.value) : undefined }
                       }))}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Unlimited"
+                      placeholder={t.endAfterPlaceholder}
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-xs text-gray-500 mb-1">Or end on date</label>
+                    <label className="block text-xs text-gray-500 mb-1">{t.orEndOnDate}</label>
                     <input
                       type="date"
                       value={formData.recurrence.until}
@@ -394,14 +498,14 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
               className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
             >
               <Save className="w-4 h-4" />
-              {loading ? 'Saving...' : (eventId ? 'Update Event' : 'Create Event')}
+              {loading ? t.saving : (eventId ? t.updateEvent : t.createEvent)}
             </button>
             <button
               type="button"
               onClick={onCancel}
               className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors"
             >
-              Cancel
+              {t.cancel}
             </button>
           </div>
         </form>

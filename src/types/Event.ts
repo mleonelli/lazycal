@@ -6,20 +6,20 @@ export interface EventLocation {
 }
 
 export interface EventDate {
-  start: Date;
+  mode: 'exact' | 'timeOfMonth';
+  // For exact date mode
+  start?: Date;
   end?: Date;
-  allDay?: boolean;
+  // For time of month mode
+  weekPosition?: 'first' | 'second' | 'third' | 'fourth';
+  weekdays?: ('monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday')[];
 }
 
 export interface RecurrenceRule {
-  frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
-  interval?: number; // Every N occurrences
+  frequency: 'monthly' | 'yearly';
+  month?: number; // 1-12, for yearly recurrence when no exact date
   count?: number; // Total occurrences
   until?: Date; // End date
-  byWeekday?: number[]; // 0-6 (Sun-Sat)
-  byMonthDay?: number[]; // 1-31
-  byMonth?: number[]; // 1-12
-  bySetPos?: number[]; // For "first Monday", "last Friday", etc.
 }
 
 export interface Event {
