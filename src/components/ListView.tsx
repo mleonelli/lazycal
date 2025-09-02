@@ -97,7 +97,7 @@ const ListView: React.FC<ListViewProps> = ({ onEventClick, onDeleteEvent }) => {
             onClick={() => navigateMonth('prev')}
             className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
           >
-            <Calendar className="w-5 h-5" />
+            <ChevronLeft className="w-5 h-5" />
           </button>
           <button
             onClick={() => setCurrentDate(new Date())}
@@ -109,7 +109,7 @@ const ListView: React.FC<ListViewProps> = ({ onEventClick, onDeleteEvent }) => {
             onClick={() => navigateMonth('next')}
             className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
           >
-            <Calendar className="w-5 h-5" />
+            <ChevronRight className="w-5 h-5" />
           </button>
         </div>
       </div>
