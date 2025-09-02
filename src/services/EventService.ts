@@ -190,4 +190,4 @@ export class EventService {
 }
 
 // Export singleton instance
-export const eventService = new EventService(new (await import('./DataService')).DataService());
+export const eventService = new EventService((await import('./DataService')).dataService);
