@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, MapPin, Clock, ExternalLink, Edit2, Trash2 } from 'lucide-react';
+import { Calendar, MapPin, Clock, ExternalLink, Edit2, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslation } from '../hooks/useTranslation';
 import { EventInstance } from '../types/Event';
 import { eventService } from '../services/EventService';
