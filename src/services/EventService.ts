@@ -1,5 +1,5 @@
 import { Event, EventInstance, EventDateMode, RecurrenceFrequency } from '../types/Event';
-import { DataService } from './DataService';
+import { DataService, dataService } from './DataService';
 
 export class EventService {
   private dataService: DataService;
@@ -287,4 +287,4 @@ export class EventService {
 }
 
 // Export singleton instance
-export const eventService = new EventService((await import('./DataService')).dataService);
+export const eventService = new EventService(dataService);
