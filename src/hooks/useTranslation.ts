@@ -27,6 +27,8 @@ export const useTranslation = () => {
 
   const changeLanguage = (newLanguage: Language) => {
     setLanguage(newLanguage);
+    // Refresh the page to ensure all components update properly
+    window.location.reload();
   };
 
   const getMonthName = (monthIndex: number): string => {

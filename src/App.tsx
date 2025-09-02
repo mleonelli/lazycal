@@ -121,8 +121,6 @@ function App() {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-6">
-              <LanguageSelector />
-              
               <button
                 onClick={() => setShowSettings(!showSettings)}
                 className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
@@ -185,11 +183,6 @@ function App() {
         {mobileMenuOpen && (
           <div className="md:hidden border-t bg-white">
             <div className="px-4 py-2 space-y-2">
-              <div className="flex items-center justify-between py-2 border-b">
-                <span className="text-sm font-medium text-gray-700">{t.language}</span>
-                <LanguageSelector />
-              </div>
-              
               <button
                 onClick={() => {
                   setShowSettings(!showSettings);
@@ -244,14 +237,21 @@ function App() {
       {/* Settings Panel */}
       {showSettings && (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <DataStorageSelector
-            currentMode={storageMode}
-            onModeChange={handleStorageModeChange}
-            isGoogleSheetsSignedIn={isGoogleSheetsSignedIn}
-            onGoogleSheetsSignIn={handleGoogleSheetsSignIn}
-            onGoogleSheetsSignOut={handleGoogleSheetsSignOut}
-            googleSheetsUrl={googleSheetsUrl}
-          />
+          <div className="space-y-4">
+            <div className="bg-white rounded-lg shadow-sm border p-4">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.language}</h3>
+              <LanguageSelector />
+            </div>
+            
+            <DataStorageSelector
+              currentMode={storageMode}
+              onModeChange={handleStorageModeChange}
+              isGoogleSheetsSignedIn={isGoogleSheetsSignedIn}
+              onGoogleSheetsSignIn={handleGoogleSheetsSignIn}
+              onGoogleSheetsSignOut={handleGoogleSheetsSignOut}
+              googleSheetsUrl={googleSheetsUrl}
+            />
+          </div>
         </div>
       )}
 
