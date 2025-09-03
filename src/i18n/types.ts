@@ -1,4 +1,4 @@
-export interface Translation {
+interface Translation {
   // Header
   appName: string;
   calendar: string;
@@ -117,4 +117,4 @@ export interface Translation {
   viewSpreadsheet: string;
 }
 
-export default Translation;
+export type { Translation };
