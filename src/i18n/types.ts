@@ -116,3 +116,5 @@ export interface Translation {
   openSpreadsheet: string;
   viewSpreadsheet: string;
 }
+
+export default Translation;
