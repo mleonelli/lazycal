@@ -6,6 +6,7 @@ import ListView from './components/ListView';
 import EventForm from './components/EventForm';
 import LanguageSelector from './components/LanguageSelector';
 import DataStorageSelector, { StorageMode } from './components/DataStorageSelector';
+import ImportExportManager from './components/ImportExportManager';
 import { eventService } from './services/EventService';
 import { GoogleSheetsService } from './services/GoogleSheetsService';
 import { GoogleSheetsDataService } from './services/GoogleSheetsDataService';
@@ -21,7 +22,7 @@ const GOOGLE_SHEETS_CONFIG = {
 
 function App() {
   const { t } = useTranslation();
-  const [viewMode, setViewMode] = useState<ViewMode>('calendar');
+  const [viewMode, setViewMode] = useState<ViewMode>('list');
   const [showEventForm, setShowEventForm] = useState(false);
   const [editingEventId, setEditingEventId] = useState<string | undefined>();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -242,6 +243,8 @@ function App() {
               <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.language}</h3>
               <LanguageSelector />
             </div>
+            
+            <ImportExportManager />
             
             <DataStorageSelector
               currentMode={storageMode}

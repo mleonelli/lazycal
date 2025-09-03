@@ -22,13 +22,23 @@ export class EventService {
   }
 
   async createEvent(eventData: Omit<Event, 'id' | 'createdAt' | 'updatedAt'>): Promise<Event> {
+    return this.dataService.createEvent(eventData);
+  }
+
+  async createEventWithId(eventData: Event): Promise<Event> {
+    // Special method for importing events with existing IDs
     const event: Event = {
       ...eventData,
-      id: crypto.randomUUID(),
-      createdAt: new Date(),
-      updatedAt: new Date(),
     };
-    await this.dataService.addEvent(event);
+    
+    // Check if event with this ID already exists
+    const existingEvent = await this.getEvent(event.id);
+    if (existingEvent) {
+      // Generate new ID if conflict
+      event.id = crypto.randomUUID();
+    }
+    
+    await this.dataService.createEvent(event);
     return event;
   }
 
