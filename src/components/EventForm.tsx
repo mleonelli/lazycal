@@ -66,8 +66,8 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
           },
           date: {
             mode: event.date.mode,
-            start: event.date.start?.toISOString().slice(0, 10) || '',
-            end: event.date.end?.toISOString().slice(0, 10) || '',
+            start: event.date.start ? event.date.start.toISOString().slice(0, 10) : '',
+            end: event.date.end ? event.date.end.toISOString().slice(0, 10) : '',
             weekPosition: event.date.weekPosition || 'first',
             weekdays: event.date.weekdays || [],
           },

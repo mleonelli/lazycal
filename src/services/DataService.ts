@@ -21,7 +21,7 @@ class LocalStorageDataService implements DataService {
         ...e,
         date: {
           ...e.date,
-          start: new Date(e.date.start),
+          start: e.date.start ? new Date(e.date.start) : undefined,
           end: e.date.end ? new Date(e.date.end) : undefined,
         },
         recurrence: e.recurrence ? {
