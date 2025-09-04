@@ -73,6 +73,7 @@ export const it: Translation = {
   daily: 'Giornaliero',
   weekly: 'Settimanale',
   monthly: 'Mensile',
+  month: 'Mese',
   yearly: 'Annuale',
   endAfter: 'Termina dopo (occorrenze)',
   endAfterPlaceholder: 'Illimitato',
