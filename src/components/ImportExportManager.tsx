@@ -137,16 +137,6 @@ const ImportExportManager: React.FC = () => {
     <div className="bg-white rounded-lg shadow-sm border p-4">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.importExport}</h3>
       
-      {/* Warning Banner */}
-      {showWarning && (
-        <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-lg flex items-center gap-2">
-          <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0" />
-          <div className="text-sm text-amber-800">
-            <strong>{t.backupWarning}</strong> {t.backupWarningMessage.replace('{days}', daysSinceLastExport?.toString() || '0')}
-          </div>
-        </div>
-      )}
-
       <div className="space-y-4">
         {/* Export/Import Actions */}
         <div className="flex flex-col sm:flex-row gap-3">

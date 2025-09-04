@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, MapPin, Clock, ExternalLink, Edit2, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Calendar, MapPin, Clock, ExternalLink, Edit2, Trash2, ChevronLeft, ChevronRight, AlertTriangle } from 'lucide-react';
 import { useTranslation } from '../hooks/useTranslation';
 import { EventInstance } from '../types/Event';
 import { eventService } from '../services/EventService';
@@ -14,6 +14,32 @@ const ListView: React.FC<ListViewProps> = ({ onEventClick, onDeleteEvent }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [eventInstances, setEventInstances] = useState<EventInstance[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  // Backup warning logic
+  const getLastExportDate = (): Date | null => {
+    const saved = localStorage.getItem('lazycal_last_export_date');
+    return saved ? new Date(saved) : null;
+  };
+
+  const getDaysSinceLastExport = (): number | null => {
+    const lastExport = getLastExportDate();
+    if (!lastExport) return null;
+    
+    const now = new Date();
+    const diffTime = now.getTime() - lastExport.getTime();
+    return Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  };
+
+  const getWarningDays = (): number => {
+    const saved = localStorage.getItem('lazycal_export_warning_days');
+    return saved ? parseInt(saved) : 30;
+  };
+
+  const shouldShowWarning = (): boolean => {
+    const daysSince = getDaysSinceLastExport();
+    const warningDays = getWarningDays();
+    return daysSince !== null && daysSince >= warningDays;
+  };
 
   useEffect(() => {
     loadEventInstances();
@@ -87,6 +113,16 @@ const ListView: React.FC<ListViewProps> = ({ onEventClick, onDeleteEvent }) => {
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-6">
+      {/* Backup Warning */}
+      {shouldShowWarning() && (
+        <div className="mb-6 p-3 bg-amber-50 border border-amber-200 rounded-lg flex items-center gap-2">
+          <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0" />
+          <div className="text-sm text-amber-800">
+            <strong>{t.backupWarning}</strong> {t.backupWarningMessage.replace('{days}', getDaysSinceLastExport()?.toString() || '0')}
+          </div>
+        </div>
+      )}
+
       {/* List Header */}
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold text-gray-800">
