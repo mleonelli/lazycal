@@ -230,7 +230,7 @@ const ListView: React.FC<ListViewProps> = ({ onEventClick, onDeleteEvent }) => {
                           className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                           title={t.deleteEvent}
                         >
-                          {t.visitEvent}
+                          {t.deleteEvent}
                         </button>
                       </div>
                     </div>
