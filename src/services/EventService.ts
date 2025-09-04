@@ -55,7 +55,7 @@ export class EventService {
       updatedAt: new Date(),
     };
     
-    await this.dataService.updateEvent(updatedEvent);
+    await this.dataService.updateEvent(id, updatedEvent);
     return updatedEvent;
   }
 
