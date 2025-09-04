@@ -73,6 +73,7 @@ export const en: Translation = {
   daily: 'Daily',
   weekly: 'Weekly',
   monthly: 'Monthly',
+  month: 'Month',
   yearly: 'Yearly',
   endAfter: 'End after (occurrences)',
   endAfterPlaceholder: 'Unlimited',
