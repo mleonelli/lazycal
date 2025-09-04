@@ -332,7 +332,12 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
                   <div>
                     <label className="block text-xs text-gray-500 mb-2">{t.weekPosition}</label>
                     <div className="flex gap-4">
-                      {['first', 'second', 'third', 'fourth'].map((position) => (
+                      {[
+                        { key: 'first', label: t.first },
+                        { key: 'second', label: t.second },
+                        { key: 'third', label: t.third },
+                        { key: 'fourth', label: t.fourth }
+                       ].map((position) => (
                         <label key={position} className="flex items-center gap-2">
                           <input
                             type="radio"
