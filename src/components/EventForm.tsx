@@ -274,7 +274,7 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
                   className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                 />
                 <label htmlFor="exactDate" className="text-sm text-gray-700">
-                  Exact Date
+                  {t.exactDate}
                 </label>
                 
                 <input
@@ -289,7 +289,7 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
                   className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                 />
                 <label htmlFor="timeOfMonth" className="text-sm text-gray-700">
-                  Time of Month
+                  {t.timeOfMonth}
                 </label>
               </div>
               
@@ -297,7 +297,7 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
               {formData.date.mode === 'exact' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs text-gray-500 mb-1">From</label>
+                    <label className="block text-xs text-gray-500 mb-1">{t.dateFrom}</label>
                     <input
                       type="date"
                       value={formData.date.start}
@@ -311,7 +311,7 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
                   </div>
                   
                   <div>
-                    <label className="block text-xs text-gray-500 mb-1">To</label>
+                    <label className="block text-xs text-gray-500 mb-1">{t.dateTo}</label>
                     <input
                       type="date"
                       value={formData.date.end}
@@ -330,7 +330,7 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
                 <div className="space-y-3">
                   {/* Week Position */}
                   <div>
-                    <label className="block text-xs text-gray-500 mb-2">Week Position</label>
+                    <label className="block text-xs text-gray-500 mb-2">{t.weekPosition}</label>
                     <div className="flex gap-4">
                       {['first', 'second', 'third', 'fourth'].map((position) => (
                         <label key={position} className="flex items-center gap-2">
@@ -352,7 +352,7 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
                 
                   {/* Weekdays */}
                   <div>
-                    <label className="block text-xs text-gray-500 mb-2">Days of Week</label>
+                    <label className="block text-xs text-gray-500 mb-2">{t.daysOfWeek}</label>
                     <div className="grid grid-cols-4 gap-2">
                       {[
                         { key: 'monday', label: 'Monday' },
