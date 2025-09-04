@@ -8,7 +8,7 @@ export const en: Translation = {
   newEvent: 'New Event',
   calendarView: 'Calendar View',
   listView: 'List View',
-  showSettings: 'Impostazioni',
+  showSettings: 'Settings',
 
   // Calendar
   today: 'Today',
