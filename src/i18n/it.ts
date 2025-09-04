@@ -81,6 +81,12 @@ export const it: Translation = {
   updateEvent: 'Aggiorna Evento',
   cancel: 'Annulla',
   saving: 'Salvataggio...',
+  exactDate: 'Exact Date',
+  timeOfMonth: 'Time of Month',
+  dateFrom: 'From',
+  dateTo: 'To',
+  weekPosition: 'Week Position',
+  daysOfWeek: 'Days of Week',
 
   // Messages
   loadingEvents: 'Caricamento eventi...',
