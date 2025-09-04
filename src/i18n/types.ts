@@ -1,4 +1,4 @@
-interface Translation {
+export interface Translation {
   // Header
   appName: string;
   calendar: string;
@@ -116,5 +116,3 @@ interface Translation {
   openSpreadsheet: string;
   viewSpreadsheet: string;
 }
-
-export type { Translation };
