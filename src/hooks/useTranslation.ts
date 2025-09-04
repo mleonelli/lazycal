@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { translations, Translation } from '../i18n/translations';
+import { translations } from '../i18n/translations';
+import type { Translation } from '../i18n/types';
 
 type Language = 'en' | 'it';
 
