@@ -337,19 +337,19 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
                         { key: 'second', label: t.second },
                         { key: 'third', label: t.third },
                         { key: 'fourth', label: t.fourth }
-                       ].map((position) => (
-                        <label key={position} className="flex items-center gap-2">
+                       ].map(({ key, label }) => (
+                        <label key={key} className="flex items-center gap-2">
                           <input
                             type="radio"
                             name="weekPosition"
-                            checked={formData.date.weekPosition === position}
+                            checked={formData.date.weekPosition === key}
                             onChange={() => setFormData(prev => ({
                               ...prev,
-                              date: { ...prev.date, weekPosition: position as 'first' | 'second' | 'third' | 'fourth' }
+                              date: { ...prev.date, weekPosition: key as 'first' | 'second' | 'third' | 'fourth' }
                             }))}
                             className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                           />
-                          <span className="text-sm text-gray-700 capitalize">{position}</span>
+                          <span className="text-sm text-gray-700 capitalize">{label}</span>
                         </label>
                       ))}
                     </div>
