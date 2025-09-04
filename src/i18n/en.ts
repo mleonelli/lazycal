@@ -81,6 +81,13 @@ export const en: Translation = {
   updateEvent: 'Update Event',
   cancel: 'Cancel',
   saving: 'Saving...',
+  exactDate: 'Exact Date',
+  timeOfMonth: 'Time of Month',
+  dateFrom: 'From',
+  dateTo: 'To',
+  weekPosition: 'Week Position',
+  daysOfWeek: 'Days of Week',
+    
 
   // Messages
   loadingEvents: 'Loading events...',
