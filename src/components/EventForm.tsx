@@ -355,13 +355,13 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
                     <label className="block text-xs text-gray-500 mb-2">{t.daysOfWeek}</label>
                     <div className="grid grid-cols-4 gap-2">
                       {[
-                        { key: 'monday', label: 'Monday' },
-                        { key: 'tuesday', label: 'Tuesday' },
-                        { key: 'wednesday', label: 'Wednesday' },
-                        { key: 'thursday', label: 'Thursday' },
-                        { key: 'friday', label: 'Friday' },
-                        { key: 'saturday', label: 'Saturday' },
-                        { key: 'sunday', label: 'Sunday' }
+                        { key: 'monday', label: t.monday },
+                        { key: 'tuesday', label: t.tuesday },
+                        { key: 'wednesday', label: t.wednesday },
+                        { key: 'thursday', label: t.thursday },
+                        { key: 'friday', label: t.friday },
+                        { key: 'saturday', label: t.saturday },
+                        { key: 'sunday', label: t.sunday }
                       ].map(({ key, label }) => (
                         <label key={key} className="flex items-center gap-2">
                           <input
