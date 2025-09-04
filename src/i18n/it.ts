@@ -87,6 +87,10 @@ export const it: Translation = {
   dateTo: 'Al',
   weekPosition: 'Settimana',
   daysOfWeek: 'Giorno della settimana',
+  first: 'Prima',
+  second: 'Seconda',
+  third: 'Terza',
+  fourth: 'Quarta',
 
   // Messages
   loadingEvents: 'Caricamento eventi...',
