@@ -437,7 +437,7 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
                 {/* Month selection for yearly recurrence when no exact date */}
                 {formData.recurrence.frequency === 'yearly' && formData.date.mode === 'timeOfMonth' && (
                   <div>
-                    <label className="block text-xs text-gray-500 mb-1">Month</label>
+                    <label className="block text-xs text-gray-500 mb-1">{t.month}</label>
                     <select
                       value={formData.recurrence.month || ''}
                       onChange={(e) => setFormData(prev => ({
