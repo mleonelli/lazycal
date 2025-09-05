@@ -155,7 +155,7 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white rounded-lg p-4 sm:p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-gray-900">
             {eventId ? t.editEventTitle : t.createNewEvent}
@@ -168,7 +168,7 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
           {/* Title */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -295,7 +295,7 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
               
               {/* Exact Date Mode */}
               {formData.date.mode === 'exact' && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs text-gray-500 mb-1">{t.dateFrom}</label>
                     <input
@@ -331,7 +331,7 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
                   {/* Week Position */}
                   <div>
                     <label className="block text-xs text-gray-500 mb-2">{t.weekPosition}</label>
-                    <div className="flex gap-4">
+                    <div className="grid grid-cols-2 sm:flex sm:gap-4 gap-2">
                       {[
                         { key: 'first', label: t.first },
                         { key: 'second', label: t.second },
@@ -358,7 +358,7 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
                   {/* Weekdays */}
                   <div>
                     <label className="block text-xs text-gray-500 mb-2">{t.daysOfWeek}</label>
-                    <div className="grid grid-cols-4 gap-2">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                       {[
                         { key: 'monday', label: t.monday },
                         { key: 'tuesday', label: t.tuesday },
@@ -463,7 +463,7 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
                   </div>
                 )}
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs text-gray-500 mb-1">{t.endAfter}</label>
                     <input
@@ -496,11 +496,11 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
             )}
           </div>
           {/* Form Actions */}
-          <div className="flex gap-3 pt-4 border-t">
+          <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t">
             <button
               type="submit"
               disabled={loading || !formData.title.trim()}
-              className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+              className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
             >
               <Save className="w-4 h-4" />
               {loading ? t.saving : (eventId ? t.updateEvent : t.createEvent)}
@@ -508,7 +508,7 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
             <button
               type="button"
               onClick={onCancel}
-              className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors"
+              className="px-4 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors"
             >
               {t.cancel}
             </button>

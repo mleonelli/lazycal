@@ -139,11 +139,11 @@ const ImportExportManager: React.FC = () => {
       
       <div className="space-y-4">
         {/* Export/Import Actions */}
-        <div className="flex flex-col sm:flex-row gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <button
             onClick={handleExport}
             disabled={isExporting}
-            className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+            className="flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 touch-manipulation"
           >
             <Download className="w-4 h-4" />
             {isExporting ? t.exporting : t.exportEvents}
@@ -152,7 +152,7 @@ const ImportExportManager: React.FC = () => {
           <button
             onClick={() => fileInputRef.current?.click()}
             disabled={isImporting}
-            className="flex items-center justify-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
+            className="flex items-center justify-center gap-2 px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 touch-manipulation"
           >
             <Upload className="w-4 h-4" />
             {isImporting ? t.importing : t.importEvents}
@@ -185,14 +185,14 @@ const ImportExportManager: React.FC = () => {
           <label className="block text-sm font-medium text-gray-700 mb-2">
             {t.backupReminderDays}
           </label>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <input
               type="number"
               min="1"
               max="365"
               value={warningDays}
               onChange={(e) => handleWarningDaysChange(parseInt(e.target.value) || DEFAULT_WARNING_DAYS)}
-              className="w-20 px-3 py-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              className="w-20 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
             />
             <span className="text-sm text-gray-600">{t.days}</span>
           </div>

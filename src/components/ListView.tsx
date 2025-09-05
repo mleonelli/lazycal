@@ -152,7 +152,7 @@ const ListView: React.FC<ListViewProps> = ({ onEventClick, onDeleteEvent }) => {
 
       {/* Events List */}
       {groupedEvents.length === 0 ? (
-        <div className="text-center py-12">
+        <div className="text-center py-8 sm:py-12">
           <Calendar className="w-12 h-12 text-gray-300 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-900 mb-2">{t.noEventsThisMonth}</h3>
           <p className="text-gray-500">{t.addFirstEvent}</p>
@@ -160,24 +160,24 @@ const ListView: React.FC<ListViewProps> = ({ onEventClick, onDeleteEvent }) => {
       ) : (
         <div className="space-y-6">
           {groupedEvents.map(([dateString, instances]) => (
-            <div key={dateString} className="border-l-4 border-blue-500 pl-4">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">
+            <div key={dateString} className="border-l-4 border-blue-500 pl-3 sm:pl-4">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3">
                 {formatDate(new Date(dateString))}
               </h3>
               
-              <div className="space-y-3">
+              <div className="space-y-2 sm:space-y-3">
                 {instances.map((instance, index) => (
                   <div
                     key={`${instance.event.id}-${index}`}
-                    className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors"
+                    className="bg-gray-50 rounded-lg p-3 sm:p-4 hover:bg-gray-100 transition-colors"
                   >
-                    <div className="flex items-start justify-between">
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                       <div className="flex-1">
-                        <h4 className="text-lg font-medium text-gray-900 mb-2">
+                        <h4 className="text-base sm:text-lg font-medium text-gray-900 mb-2">
                           {instance.event.title}
                         </h4>
                         
-                        <div className="flex items-center gap-4 text-sm text-gray-600 mb-2">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-gray-600 mb-2">
                           <div className="flex items-center gap-1">
                             <Clock className="w-4 h-4" />
                             <span>
@@ -199,7 +199,7 @@ const ListView: React.FC<ListViewProps> = ({ onEventClick, onDeleteEvent }) => {
                         </div>
 
                         {instance.event.description && (
-                          <p className="text-gray-700 text-sm mb-2 line-clamp-2">
+                          <p className="text-gray-700 text-sm mb-2">
                             {instance.event.description}
                           </p>
                         )}
@@ -212,25 +212,25 @@ const ListView: React.FC<ListViewProps> = ({ onEventClick, onDeleteEvent }) => {
                             className="inline-flex items-center gap-1 text-sm text-blue-600 hover:text-blue-800"
                           >
                             <ExternalLink className="w-3 h-3" />
-                            Visit Event
+                            {t.visitEvent}
                           </a>
                         )}
                       </div>
 
-                      <div className="flex gap-2 ml-4">
+                      <div className="flex gap-2 sm:ml-4 justify-end sm:justify-start">
                         <button
                           onClick={() => onEventClick(instance.event.id)}
-                          className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                          className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors touch-manipulation"
                           title={t.editEvent}
                         >
                           <Edit2 className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => handleDelete(instance.event.id)}
-                          className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors touch-manipulation"
                           title={t.deleteEvent}
                         >
-                          {t.deleteEvent}
+                          <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
                     </div>
