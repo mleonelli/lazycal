@@ -7,6 +7,7 @@ import EventForm from './components/EventForm';
 import LanguageSelector from './components/LanguageSelector';
 import DataStorageSelector, { StorageMode } from './components/DataStorageSelector';
 import ImportExportManager from './components/ImportExportManager';
+import FeedbackForm from './components/FeedbackForm';
 import Footer from './components/Footer';
 import { eventService } from './services/EventService';
 import { GoogleSheetsService } from './services/GoogleSheetsService';
@@ -246,6 +247,8 @@ function App() {
             </div>
             
             <ImportExportManager />
+            
+            <FeedbackForm />
             
             <DataStorageSelector
               currentMode={storageMode}
