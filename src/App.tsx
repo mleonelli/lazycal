@@ -7,6 +7,7 @@ import EventForm from './components/EventForm';
 import LanguageSelector from './components/LanguageSelector';
 import DataStorageSelector, { StorageMode } from './components/DataStorageSelector';
 import ImportExportManager from './components/ImportExportManager';
+import Footer from './components/Footer';
 import { eventService } from './services/EventService';
 import { GoogleSheetsService } from './services/GoogleSheetsService';
 import { GoogleSheetsDataService } from './services/GoogleSheetsDataService';
@@ -109,7 +110,7 @@ function App() {
   }, [googleSheetsService]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Header */}
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -259,7 +260,7 @@ function App() {
       )}
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {viewMode === 'calendar' ? (
           <Calendar onEventClick={handleEventClick} />
         ) : (
@@ -278,6 +279,9 @@ function App() {
           onCancel={handleCancelEventForm}
         />
       )}
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
