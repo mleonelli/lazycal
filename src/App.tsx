@@ -284,7 +284,7 @@ function App() {
       )}
 
       {/* Footer */}
-      <Footer />
+      <Footer onFeedbackClick={handleFooterFeedbackClick} />
     </div>
   );
 }
