@@ -112,7 +112,7 @@ function App() {
   }, [googleSheetsService]);
 
   const handleFooterFeedbackClick = useCallback(() => {
-    setShowSettings(true);
+    setShowFeedback(true);
   }, []);
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
