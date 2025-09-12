@@ -29,6 +29,7 @@ function App() {
   const [editingEventId, setEditingEventId] = useState<string | undefined>();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
   const [storageMode, setStorageMode] = useState<StorageMode>('local');
   const [googleSheetsService] = useState(() => new GoogleSheetsService(GOOGLE_SHEETS_CONFIG));
   const [isGoogleSheetsSignedIn, setIsGoogleSheetsSignedIn] = useState(false);
@@ -251,8 +252,6 @@ function App() {
             
             <ImportExportManager />
             
-            <FeedbackForm />
-            
             <DataStorageSelector
               currentMode={storageMode}
               onModeChange={handleStorageModeChange}
@@ -262,6 +261,13 @@ function App() {
               googleSheetsUrl={googleSheetsUrl}
             />
           </div>
+        </div>
+      )}
+
+      {/* Feedback Panel */}
+      {showFeedback && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <FeedbackForm />
         </div>
       )}
 
