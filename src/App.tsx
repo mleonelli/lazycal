@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Calendar as CalendarIcon, List, Plus, Menu, X, Settings } from 'lucide-react';
+import { Calendar as CalendarIcon, List, Plus, Menu, X, Settings, MessageSquare } from 'lucide-react';
 import { useTranslation } from './hooks/useTranslation';
 import Calendar from './components/Calendar';
 import ListView from './components/ListView';
