@@ -336,7 +336,8 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
                         { key: 'first', label: t.first },
                         { key: 'second', label: t.second },
                         { key: 'third', label: t.third },
-                        { key: 'fourth', label: t.fourth }
+                        { key: 'fourth', label: t.fourth },
+                        { key: 'last', label: t.last }
                        ].map(({ key, label }) => (
                         <label key={key} className="flex items-center gap-2">
                           <input
@@ -345,7 +346,7 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
                             checked={formData.date.weekPosition === key}
                             onChange={() => setFormData(prev => ({
                               ...prev,
-                              date: { ...prev.date, weekPosition: key as 'first' | 'second' | 'third' | 'fourth' }
+                              date: { ...prev.date, weekPosition: key as 'first' | 'second' | 'third' | 'fourth' | 'last' }
                             }))}
                             className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                           />

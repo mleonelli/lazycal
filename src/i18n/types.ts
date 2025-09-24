@@ -115,4 +115,5 @@ export interface Translation {
   signOut: string;
   openSpreadsheet: string;
   viewSpreadsheet: string;
+  last: string;
 }

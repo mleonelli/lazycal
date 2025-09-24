@@ -215,7 +215,7 @@ export class EventService {
   private findTimeOfMonthDateInRange(
     startDate: Date,
     endDate: Date,
-    weekPosition: 'first' | 'second' | 'third' | 'fourth',
+    weekPosition: 'first' | 'second' | 'third' | 'fourth' | 'last',
     weekdays: ('monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday')[]
   ): Date | null {
     let currentMonth = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
