@@ -11,7 +11,7 @@ export interface EventDate {
   start?: Date;
   end?: Date;
   // For time of month mode
-  weekPosition?: 'first' | 'second' | 'third' | 'fourth';
+  weekPosition?: 'first' | 'second' | 'third' | 'fourth' | 'last';
   weekdays?: ('monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday')[];
 }
 

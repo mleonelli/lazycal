@@ -93,6 +93,7 @@ export const en: Translation = {
   second: 'Second',
   third: 'Third',
   fourth: 'Fourth',
+  last: 'Last',
     
 
   // Messages

@@ -93,6 +93,7 @@ export const it: Translation = {
   second: 'Seconda',
   third: 'Terza',
   fourth: 'Quarta',
+  last: 'Ultima',
 
   // Messages
   loadingEvents: 'Caricamento eventi...',
