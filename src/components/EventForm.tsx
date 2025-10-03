@@ -161,7 +161,9 @@ const EventForm: React.FC<EventFormProps> = ({ eventId, onSave, onCancel }) => {
             {eventId ? t.editEventTitle : t.createNewEvent}
           </h2>
           <button
-            onClick={onCancel}
+            disabled={loading || !formData.title.trim() || 
+              (formData.date.mode === 'timeOfMonth' && formData.date.weekdays.length === 0) ||
+              (formData.date.mode === 'exact' && !formData.date.start)}
             className="text-gray-400 hover:text-gray-600"
           >
             <X className="w-6 h-6" />
