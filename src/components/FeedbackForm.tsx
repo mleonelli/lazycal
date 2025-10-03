@@ -6,26 +6,35 @@ const FeedbackForm: React.FC = () => {
   const { t } = useTranslation();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError(null);
     
-    // Let Netlify handle the form submission
+    // Use FormSpree for form submission
     const form = e.currentTarget;
     const formData = new FormData(form);
     
     try {
-      await fetch('/', {
+      const response = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData as any).toString()
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
       });
       
-      setIsSubmitted(true);
-      form.reset();
+      if (response.ok) {
+        setIsSubmitted(true);
+        form.reset();
+      } else {
+        throw new Error('Failed to submit feedback');
+      }
     } catch (error) {
       console.error('Error submitting feedback:', error);
+      setError('Failed to submit feedback. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -60,8 +69,13 @@ const FeedbackForm: React.FC = () => {
         <h3 className="text-lg font-semibold text-gray-900">Share Your Feedback</h3>
       </div>
       
-      <form name="feedback" method="POST" netlify onSubmit={handleSubmit} className="space-y-4">
-        <input type="hidden" name="form-name" value="feedback" />
+      {error && (
+        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+          <p className="text-sm text-red-600">{error}</p>
+        </div>
+      )}
+      
+      <form onSubmit={handleSubmit} className="space-y-4">
         
         {/* Feedback Type */}
         <div>
