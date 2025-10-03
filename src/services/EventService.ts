@@ -234,18 +234,11 @@ export class EventService {
 
   private findTimeOfMonthDateInMonth(
     monthStart: Date,
-    weekPosition: 'first' | 'second' | 'third' | 'fourth',
+    weekPosition: 'first' | 'second' | 'third' | 'fourth' | 'last',
     weekdays: ('monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday')[]
   ): Date | null {
     const year = monthStart.getFullYear();
     const month = monthStart.getMonth();
-    
-    const weekPositionMap = {
-      'first': 1,
-      'second': 2,
-      'third': 3,
-      'fourth': 4,
-    };
     
     const weekdayMap = {
       'sunday': 0,
@@ -257,9 +250,30 @@ export class EventService {
       'saturday': 6,
     };
     
-    const position = weekPositionMap[weekPosition];
+    // Handle "last" position separately
+    if (weekPosition === 'last') {
+      // Find the last occurrence of each weekday in the month
+      for (const weekdayName of weekdays) {
+        const weekday = weekdayMap[weekdayName];
+        const date = this.getLastWeekdayOfMonth(year, month, weekday);
+        if (date) {
+          return date;
+        }
+      }
+      return null;
+    }
     
-    // Find the first occurrence of each weekday in the month
+    // Handle numbered positions (first, second, third, fourth)
+    const weekPositionMap = {
+      'first': 1,
+      'second': 2,
+      'third': 3,
+      'fourth': 4,
+    };
+    
+    const position = weekPositionMap[weekPosition as keyof typeof weekPositionMap];
+    
+    // Find the nth occurrence of each weekday in the month
     for (const weekdayName of weekdays) {
       const weekday = weekdayMap[weekdayName];
       const date = this.getNthWeekdayOfMonth(year, month, position, weekday);
@@ -293,6 +307,34 @@ export class EventService {
     }
     
     return date;
+  }
+
+  private getLastWeekdayOfMonth(
+    year: number,
+    month: number,
+    weekday: number
+  ): Date | null {
+    // Start from the last day of the month
+    const lastDay = new Date(year, month + 1, 0);
+    const lastDayOfWeek = lastDay.getDay();
+    
+    // Calculate how many days to go back to find the target weekday
+    let daysBack = (lastDayOfWeek - weekday + 7) % 7;
+    
+    // If it's the same weekday, we found it
+    if (daysBack === 0 && lastDay.getDay() === weekday) {
+      return lastDay;
+    }
+    
+    // Go back to find the last occurrence
+    const targetDate = new Date(year, month, lastDay.getDate() - daysBack);
+    
+    // Verify the date is still in the correct month
+    if (targetDate.getMonth() !== month) {
+      return null;
+    }
+    
+    return targetDate;
   }
 }
 
