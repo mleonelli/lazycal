@@ -13,12 +13,21 @@ const FeedbackForm: React.FC = () => {
     setIsSubmitting(true);
     setError(null);
     
+    // Get FormSpree form ID from environment variables
+    const formId = import.meta.env.VITE_FORMSPREE_FORM_ID;
+    
+    if (!formId) {
+      setError('Form configuration is missing. Please contact support.');
+      setIsSubmitting(false);
+      return;
+    }
+    
     // Use FormSpree for form submission
     const form = e.currentTarget;
     const formData = new FormData(form);
     
     try {
-      const response = await fetch('https://formspree.io/f/mnngvwln', {
+      const response = await fetch(`https://formspree.io/f/${formId}`, {
         method: 'POST',
         body: formData,
         headers: {
